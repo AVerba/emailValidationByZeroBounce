@@ -1,0 +1,2 @@
+class e{constructor(e){const t="https://api.zerobounce.net/v2",s=new XMLHttpRequest;this.apiKey=e,this.getCredits=function(){const a=t+"/getcredits?api_key="+e;if(s.open("GET",a,!1),s.send(),4===s.readyState&&200===s.status)return s.responseText},this.validate=function(a,n){var i=t+"/validate?api_key="+e+"&email="+a;if(s.open("GET",i,!1),s.send(),4==s.readyState&&200==s.status)return s.responseText}}}e=new e("47e5dfb65abc496395678f72fd672e9d");const t=JSON.parse(e.validate("mail_server_did_not_respond@example.com"));console.log(t);
+//# sourceMappingURL=index.e7f63bf3.js.map
