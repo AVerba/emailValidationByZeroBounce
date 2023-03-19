@@ -11,10 +11,8 @@ class ZeroBounceApi {
         return get.responseText;
       }
     }
-
-
     this.validate = function(email, ip_address){
-      var uri = baseUrl + "/validate" + "?api_key=" + apiKey + "&email=" + email;
+      const uri = baseUrl + "/validate" + "?api_key=" + apiKey + "&email=" + email;
       get.open('GET', uri, false);
       get.send();
       if (get.readyState == 4 && get.status == 200) {
@@ -23,10 +21,31 @@ class ZeroBounceApi {
     }
   }
 }
+ZeroBounceApi = new ZeroBounceApi("47e5dfb65abc496395678f72fd672e9d")
+const chkBtn =document.querySelector(".check-btn"),
+  inputmail=document.querySelector(".form__input");
+const checkEmail=(email)=>{
+  console.log(email.value)
+    let emailStr = email.value,
+      re = /\S+@\S+\.\S+/;
 
- ZeroBounceApi = new ZeroBounceApi("47e5dfb65abc496395678f72fd672e9d")
-// ZeroBounceApi.apiKey
-// ZeroBounceApi.getCredits()
-const res=JSON.parse(ZeroBounceApi.validate("mail_server_did_not_respond@example.com"))
+    if (!(re.test(emailStr))) {
+      alert("please enter a valid email")
+      return true
+    }
+    else{
+      const res=JSON.parse(ZeroBounceApi.validate(emailStr))
+      if(res.status!=="valid"){
+        alert("please enter a valid email")
+        return true
+      }
+      else{
+        alert("Our congrats email is valid")
+      }
+    }
+}
+chkBtn.addEventListener('click',()=>{
+  checkEmail(inputmail)
+})
 
-console.log(res)
+
