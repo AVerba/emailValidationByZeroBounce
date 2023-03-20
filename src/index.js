@@ -22,8 +22,10 @@ class ZeroBounceApi {
   }
 }
 ZeroBounceApi = new ZeroBounceApi("47e5dfb65abc496395678f72fd672e9d")
-const chkBtn =document.querySelector(".check-btn"),
-  inputmail=document.querySelector(".form__input");
+const chkBtn1 =document.querySelector(".check-btn1"),
+  inputmail1=document.querySelector(".form__input1"),
+chkBtn2 =document.querySelector(".check-btn2"),
+  inputMail2=document.querySelector(".form__input2");
 const checkEmail=(email)=>{
   console.log(email.value)
     let emailStr = email.value,
@@ -44,8 +46,57 @@ const checkEmail=(email)=>{
       }
     }
 }
-chkBtn.addEventListener('click',()=>{
-  checkEmail(inputmail)
+chkBtn1.addEventListener('click',()=>{
+  checkEmail(inputmail1)
 })
 
+//===============================
+const apiService=(url, options)=>{
+
+  const res= fetch(url,options).then(response=>{
+    console.log(response)
+    // if(!response){
+    //   console.log("ERROR")
+    //   // return response.json.then(error=>Promise.reject(error))
+    // }
+    // return response.json();
+  });
+}
+const fetchEmail = (mail) => {
+  const BASE_URL = 'https://api.quickemailverification.com/v1/verify';
+  const apiKey='2884c62b7c39b797b2a105be097bfdb96e30e26c90b0ee4a3c51fc61f303'
+
+  return apiService(`${BASE_URL}?email=${mail}&apikey=${apiKey}`,{
+    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    mode: 'no-cors', // no-cors, *cors, same-origin
+  });
+}
+const checkEmail2=(email)=>{
+  console.log(email.value)
+  let emailStr = email.value,
+    re = /\S+@\S+\.\S+/;
+
+  if (!(re.test(emailStr))) {
+    alert("please enter a valid email")
+    return true
+  }
+  else{
+    const res =fetchEmail(emailStr)
+
+    if(res.result!=="valid"){
+      alert("please enter a real valid email")
+      return true
+    }
+    else{
+      alert("Our congrats email is valid")
+    }
+    alert("Our congrats email is valid")
+  }
+}
+
+
+chkBtn2.addEventListener('click',()=>{
+  console.log(inputMail2.value)
+  checkEmail2(inputMail2)
+})
 
