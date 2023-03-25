@@ -25,6 +25,7 @@ ZeroBounceApi = new ZeroBounceApi("47e5dfb65abc496395678f72fd672e9d")
 const chkBtn1 =document.querySelector(".check-btn1"),
   inputmail1=document.querySelector(".form__input1"),
 chkBtn2 =document.querySelector(".check-btn2"),
+  phoneNumber=document.getElementById("organization_phone"),
   inputMail2=document.querySelector(".form__input2");
 const checkEmail=(email)=>{
   console.log(email.value)
@@ -71,32 +72,41 @@ const fetchEmail = (mail) => {
     mode: 'no-cors', // no-cors, *cors, same-origin
   });
 }
-const checkEmail2=(email)=>{
-  console.log(email.value)
-  let emailStr = email.value,
-    re = /\S+@\S+\.\S+/;
 
-  if (!(re.test(emailStr))) {
-    alert("please enter a valid email")
-    return true
-  }
-  else{
-    const res =fetchEmail(emailStr)
-
-    if(res.result!=="valid"){
-      alert("please enter a real valid email")
-      return true
-    }
-    else{
-      alert("Our congrats email is valid")
-    }
-    alert("Our congrats email is valid")
-  }
-}
-
+document.getElementById('organization_phone').addEventListener('input', function (e) {
+  var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+  e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+});
 
 chkBtn2.addEventListener('click',()=>{
-  console.log(inputMail2.value)
-  checkEmail2(inputMail2)
-})
+  const numberForCheck = phoneNumber.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+  const y=1+numberForCheck[0]
+  console.log(y)
+  var myHeaders = new Headers();
+  const number='19739476185'
+  myHeaders.append("apikey", "sDckFUtIra6wSfWrWC92MvWjKkPNLWPS");
 
+  var requestOptions = {
+    method: 'GET',
+    redirect: 'follow',
+    headers: myHeaders
+  };
+
+  fetch(`https://api.apilayer.com/number_verification/validate?number=${y}`, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+
+      if(result.valid){
+        alert("Our congrats PHONE NUMBER is valid")
+        return true
+      }
+      else{
+        alert("please enter a valid PHONE NUMBER")
+      }
+      console.log(result)
+    })
+    .catch(error => console.log('error', error));
+
+
+})
+/*19739476185*/
