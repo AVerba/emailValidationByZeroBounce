@@ -26,6 +26,7 @@ const chkBtn1 =document.querySelector(".check-btn1"),
   inputmail1=document.querySelector(".form__input1"),
 chkBtn2 =document.querySelector(".check-btn2"),
   phoneNumber=document.getElementById("organization_phone"),
+  modalChecking=document.querySelector('[data-checking]'),
   inputMail2=document.querySelector(".form__input2");
 const checkEmail=(email)=>{
   console.log(email.value)
@@ -91,18 +92,31 @@ chkBtn2.addEventListener('click',()=>{
     redirect: 'follow',
     headers: myHeaders
   };
+  modalChecking.classList.remove('_is-hidden');
 
   fetch(`https://api.apilayer.com/number_verification/validate?number=${y}`, requestOptions)
-    .then(response => response.json())
-    .then(result => {
+    .then(response => {
 
-      if(result.valid){
-        alert("Our congrats PHONE NUMBER is valid")
-        return true
-      }
-      else{
-        alert("please enter a valid PHONE NUMBER")
-      }
+      return response.json()
+    })
+    .then(result => {
+      modalChecking.classList.add('_is-hidden');
+      setTimeout(() => {
+        if(result.valid){
+          alert("Our congrats PHONE NUMBER is valid ")
+
+          return true
+        }
+        else{
+            alert("please enter a valid PHONE NUMBER")
+        }
+
+
+      }, 500);
+
+
+
+
       console.log(result)
     })
     .catch(error => console.log('error', error));
